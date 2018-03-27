@@ -1,0 +1,10 @@
+.card {
+    max-height: calc(80vh - 155px);
+    overflow-y: auto;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.card:not(:last-child) {
+    margin-right: 15px;
+}
