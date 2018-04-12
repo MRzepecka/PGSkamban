@@ -31,6 +31,43 @@ namespace Pgs.Kanban.Api.Controllers
 
             return Ok(result);
         }
+
+        [HttpPut]
+        public IActionResult EditListName([FromBody] EditListNameDto editListNameDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            var result = _listService.EditListName(editListNameDto);
+
+            if (!result)
+            {
+                return BadRequest();
+            }
+
+            return NoContent();
+        }
+        
+        [HttpDelete("{id}/{boardId}")]
+        public IActionResult DeleteList(int id, int boardId)
+        {
+            var deleteListDto = new DeleteListDto { BoardId = boardId, ListId = id };
+            if (deleteListDto.ListId<=0 && deleteListDto.ListId<=0)
+            {
+                return BadRequest();
+            }
+
+            var result = _listService.DeleteList(deleteListDto);
+
+            if (!result)
+            {
+                return BadRequest();
+            }
+
+            return NoContent();
+        }
     }
 }
 

@@ -38,5 +38,44 @@ namespace Pgs.Kanban.Domain.Services
 
             return listDto;
         }
+        public bool EditListName(EditListNameDto editListNameDto)
+        {
+            if (!_context.Boards.Any(x => x.Id == editListNameDto.BoardId))
+            {
+                return false;
+            }
+
+            var list = _context.Lists.SingleOrDefault(l => l.Id == editListNameDto.ListId);
+
+            if (list == null || list.Name == editListNameDto.Name)
+            {
+                return false;
+            }
+
+            list.Name = editListNameDto.Name;
+
+            var result = _context.SaveChanges();
+
+            return result > 0;
+        }
+        public bool DeleteList(DeleteListDto deleteListDto)
+        {
+
+            if (!_context.Boards.Any(x => x.Id == deleteListDto.BoardId))
+            {
+                return false;
+            }
+
+            var list = _context.Lists.SingleOrDefault(l => l.Id == deleteListDto.ListId);
+
+            if (list == null)
+            {
+                return false;
+            }
+            _context.Remove(list);
+            var result = _context.SaveChanges();
+
+            return result > 0;
+        }
     }
 }
