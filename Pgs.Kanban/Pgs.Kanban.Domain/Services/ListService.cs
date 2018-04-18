@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using Pgs.Kanban.Domain.Dtos;
 using Pgs.Kanban.Domain.Models;
 
@@ -23,7 +24,7 @@ namespace Pgs.Kanban.Domain.Services
             var list = new List
             {
                 Name = addListDto.Name,
-                BoardId = addListDto.BoardId
+                BoardId = addListDto.BoardId,
             };
 
             _context.Lists.Add(list);
@@ -76,6 +77,30 @@ namespace Pgs.Kanban.Domain.Services
             var result = _context.SaveChanges();
 
             return result > 0;
+        }
+        public ListDto GetList(){
+            var list = _context.Lists
+              .Include(b => b.Cards)
+              .LastOrDefault();
+
+            if (list == null)
+            {
+                return null;
+            }
+
+            var listDto= new ListDto()
+            {
+                Id = list.Id,
+                Name = list.Name,
+                Cards = list.Cards.Select(l => new CardDto
+                {
+                    Id = l.Id,
+                    ListId= l.ListId,
+                    Name = l.Name
+                }).ToList()
+            };
+
+            return listDto;
         }
     }
 }

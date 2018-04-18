@@ -39,7 +39,7 @@ class Board extends React.Component {
   renderLists = () => {
     return this.state.boardData.map(list => (
         <List key={list.id} boardId={list.boardId} 
-          listId={list.id} listName={list.name} cards={[]} onClick={this.deleteList}/>
+          listId={list.id} listName={list.name} cards={list.cards} onClick={this.deleteList}/>
       )
     );
   };

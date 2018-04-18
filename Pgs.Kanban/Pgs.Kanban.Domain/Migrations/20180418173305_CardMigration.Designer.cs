@@ -11,9 +11,10 @@ using System;
 namespace Pgs.Kanban.Domain.Migrations
 {
     [DbContext(typeof(KanbanContext))]
-    partial class KanbanContextModelSnapshot : ModelSnapshot
+    [Migration("20180418173305_CardMigration")]
+    partial class CardMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -70,7 +71,7 @@ namespace Pgs.Kanban.Domain.Migrations
             modelBuilder.Entity("Pgs.Kanban.Domain.Models.Card", b =>
                 {
                     b.HasOne("Pgs.Kanban.Domain.Models.List", "List")
-                        .WithMany("Cards")
+                        .WithMany()
                         .HasForeignKey("ListId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

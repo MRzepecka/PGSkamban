@@ -10,12 +10,16 @@ constructor(props){
     super(props);
     this.state = {
         name: props.listName,
-        boardId: props.boardId
+        boardId: props.boardId,
+        cardName: "",
+        listData: props.cards
     };
+    console.log(props.cards);
 }
     renderCards = () => {
         return (
-            this.props.cards.map((card) => <Card cardName={card.name}/>)
+            this.state.listData.map((card) => <Card cardName={card.name} key={card.id} listId={card.listId} 
+            cardId={card.id} onClick={this.deleteCard}/>)
         );
     }
 
@@ -23,6 +27,9 @@ constructor(props){
         this.setState({name: e.target.value});
     }
 
+    onChangeCard = (e) => {
+        this.setState({cardName: e.target.value});
+    }
     saveListName = () => {
         axios.put(BASE_URL+"/list", {name: this.state.name, boardId: this.state.boardId, listId: this.props.listId}).then(() =>{
             console.log("Successfully update list!")
@@ -38,6 +45,31 @@ constructor(props){
         });
     }
 
+    addCard = (e) => {
+        console.log(this.state.listName);
+        axios.post(BASE_URL+"/card", 
+        {
+         listId: this.props.listId,
+         name: this.state.cardName
+        })
+        .then(response => {
+          console.log(response);
+          this.setState(prevState =>{
+            const result = [...prevState.listData, response.data];
+            return{
+              listData: result, //... to przkopiuje to co jest w tym a później doda jeszcze dodatkową to nowe
+              cardName: ''
+            }
+          });
+        });
+      }
+
+      deleteCard = id => {
+        this.setState(prevState => {
+          return { listData: prevState.listData.filter(card => card.id !== id) };
+        });
+      };
+    
     render() {
         return(
             <div className="col-3">
@@ -51,7 +83,8 @@ constructor(props){
                 {this.renderCards()}
               </div>
               <div>
-                <button className="btn btn-warning btn-sm">Add Card</button>
+              <input value={this.state.cardName} onChange={this.onChangeCard} className="form-control col-8"/>
+                <button className="btn btn-warning btn-sm" onClick={this.addCard}>Add Card</button>
               </div>
             </div>
         )

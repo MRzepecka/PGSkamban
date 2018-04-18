@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 
 namespace Pgs.Kanban.Domain.Models
 {
@@ -16,5 +14,7 @@ namespace Pgs.Kanban.Domain.Models
 
         [Required]
         public string Name { get; set; }
+
+        public virtual ICollection<Card> Cards { get; set; }
     }
 }

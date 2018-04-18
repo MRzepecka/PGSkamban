@@ -14,6 +14,19 @@ namespace Pgs.Kanban.Api.Controllers
             _listService = new ListService();
         }
 
+        [HttpGet]
+        public IActionResult GetList()
+        {
+            var response = _listService.GetList();
+
+            if (response == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(response);
+        }
+
         [HttpPost]
         public IActionResult AddList([FromBody] AddListDto addListDto)
         {
