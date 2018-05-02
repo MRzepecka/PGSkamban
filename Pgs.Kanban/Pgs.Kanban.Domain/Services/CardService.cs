@@ -56,6 +56,30 @@ namespace Pgs.Kanban.Domain.Services
 
             card.Name = editCardNameDto.Name;
 
+            _context.Entry(card).State = Microsoft.EntityFrameworkCore.EntityState.Modified; 
+
+            var result = _context.SaveChanges();
+
+            return result > 0;
+        }
+        public bool EditCardDescriprion(EditCardDescriptionDTO editCardDescriptionDto)
+        {
+            if (!_context.Lists.Any(x => x.Id == editCardDescriptionDto.ListId))
+            {
+                return false;
+            }
+
+            var card = _context.Cards.SingleOrDefault(l => l.Id == editCardDescriptionDto.Id);
+
+            if (card == null || (card.Description != null && card.Description == editCardDescriptionDto.Description))
+            {
+                return false;
+            }
+
+            card.Description = editCardDescriptionDto.Description;
+
+            _context.Entry(card).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+
             var result = _context.SaveChanges();
 
             return result > 0;

@@ -55,6 +55,8 @@ namespace Pgs.Kanban.Domain.Services
 
             list.Name = editListNameDto.Name;
 
+            _context.Entry(list).State = EntityState.Modified;
+
             var result = _context.SaveChanges();
 
             return result > 0;

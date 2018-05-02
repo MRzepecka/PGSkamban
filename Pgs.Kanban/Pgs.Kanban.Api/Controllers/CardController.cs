@@ -5,7 +5,7 @@ using Pgs.Kanban.Domain.Services;
 namespace Pgs.Kanban.Api.Controllers
 {
     [Route("api/[controller]")]
-    public class CardController: Controller
+    public class CardController : Controller
     {
         private readonly CardService _cardService;
 
@@ -41,6 +41,24 @@ namespace Pgs.Kanban.Api.Controllers
             }
 
             var result = _cardService.EditCardName(editCardNameDto);
+
+            if (!result)
+            {
+                return BadRequest();
+            }
+
+            return NoContent();
+        }
+
+        [HttpPut("description")]
+        public IActionResult EditDescriptionName([FromBody] EditCardDescriptionDTO editCardDescriptionDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            var result = _cardService.EditCardDescriprion(editCardDescriptionDto);
 
             if (!result)
             {

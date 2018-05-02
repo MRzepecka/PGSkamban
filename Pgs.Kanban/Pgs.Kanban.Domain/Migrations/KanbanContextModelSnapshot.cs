@@ -38,6 +38,8 @@ namespace Pgs.Kanban.Domain.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("Description");
+
                     b.Property<int>("ListId");
 
                     b.Property<string>("Name")

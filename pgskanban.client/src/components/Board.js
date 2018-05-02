@@ -6,7 +6,7 @@ import axios from "axios";
 import "./Board.css";
 
 class Board extends React.Component {
-  
+
   constructor() {
     super();
     this.state = {
@@ -29,7 +29,7 @@ class Board extends React.Component {
       this.props.history.push('/new');
     });
   }
-  
+
   deleteList = id => {
     this.setState(prevState => {
       return { boardData: prevState.boardData.filter(list => list.id !== id) };
@@ -38,31 +38,31 @@ class Board extends React.Component {
 
   renderLists = () => {
     return this.state.boardData.map(list => (
-        <List key={list.id} boardId={list.boardId} 
-          listId={list.id} listName={list.name} cards={list.cards} onClick={this.deleteList}/>
-      )
+      <List key={list.id} boardId={list.boardId}
+        listId={list.id} listName={list.name} cards={list.cards} onClick={this.deleteList} />
+    )
     );
   };
 
   onClickAdd = (e) => {
     console.log(this.state.listName);
-    axios.post(BASE_URL+"/list", 
-    {
-      boardId: this.state.boardId,
-      name: this.state.listName
-    })
-    .then(response => {
-      console.log(response);
-      this.setState(prevState =>{
-        return{
-          boardData: [...prevState.boardData, response.data], //... to przkopiuje to co jest w tym a później doda jeszcze dodatkową to nowe
-          listName: ''
-        }
+    axios.post(BASE_URL + "/list",
+      {
+        boardId: this.state.boardId,
+        name: this.state.listName
+      })
+      .then(response => {
+        console.log(response);
+        this.setState(prevState => {
+          return {
+            boardData: [...prevState.boardData, response.data],
+            listName: ''
+          }
+        });
       });
-    });
   }
 
-  onChangeList =(e) =>{
+  onChangeList = (e) => {
     this.setState({
       listName: e.target.value
     })
@@ -74,7 +74,7 @@ class Board extends React.Component {
         <div>
           <h1>{this.state.boardName}</h1>
           <button className="btn btn-info" onClick={this.onClickAdd}
-           disabled={!this.state.listName}>Add new list</button>
+            disabled={!this.state.listName}>Add new list</button>
           <input type="text" className="listName__input" value={this.state.listName} onChange={this.onChangeList} />
         </div>
         <div className="container-fluid">

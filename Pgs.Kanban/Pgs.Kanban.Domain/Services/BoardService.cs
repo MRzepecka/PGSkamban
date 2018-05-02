@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Pgs.Kanban.Domain.Dtos;
 using Pgs.Kanban.Domain.Models;
@@ -43,7 +40,8 @@ namespace Pgs.Kanban.Domain.Services
                     {
                         Id = c.Id,
                         ListId = c.ListId,
-                        Name = c.Name
+                        Name = c.Name,
+                        Description = c.Description
                     }).ToList()
                 }).ToList()
             };
